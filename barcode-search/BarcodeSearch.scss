@@ -1,0 +1,145 @@
+﻿.barcode-page {
+    padding: 20px 0;
+
+    .page-container {
+        display: block !important;
+
+        .topic-body {
+            display: block !important;
+            @include border($color-border, $border-base);
+            background: #fff;
+            padding: 20px;
+
+
+            .topic-title {
+                font-size: 14px;
+                color: $gray-darker;
+                font-weight: 700;
+                padding-bottom: 20px;
+            }
+
+            .topic-content {
+                font-size: 13px;
+                color: $gray-dark;
+                line-height: 24px;
+            }
+        }
+    }
+
+    .topic-body {
+        display: block;
+        flex: 100%;
+        margin-bottom: 20px;
+
+        #search {
+            height: 35px;
+            border: none;
+            padding: 0 15px;
+            color: #9a9a9a;
+            border: 1px solid #e2e6eb;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+            font-size: 13px;
+            width: 100%;
+        }
+    }
+
+    .cart-area {
+        display: none;
+
+        .page-body {
+            display: block;
+            width: 100%;
+
+            .cart-wrap {
+                @include border($color-border, $border-base);
+                background: #fff;
+                margin-bottom: 10px;
+                display: block;
+
+                .cart-item-header {
+                    @include flexbox;
+                    border-bottom: 1px solid $color-border;
+                    padding: 0 15px;
+                    position: relative;
+                    font-size: 14px;
+                    line-height: 49px;
+                    font-weight: 600;
+                    color: $gray-darker;
+
+                    .product-details {
+                        @include flexbox;
+                        @include flex(1);
+
+                        .product-info {
+                            @include flexbox;
+                            @include align-items(center);
+                            @include flex(1);
+                            width: 40%;
+                        }
+
+                        .product-unit-price {
+                            @include centered;
+                            width: 20%;
+                        }
+                    }
+                }
+
+                #result {
+                    .cart-item {
+                        position: relative;
+                        padding: 15px;
+
+                        .product-details {
+                            @include flex(1);
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            @include flexbox;
+                            @include flex(1);
+
+                            .product-info {
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                @include flexbox;
+                                @include justify-content(center);
+                                @include flex-direction(column);
+                                @include flex(1);
+                                width: 40%;
+
+                                .product-name {
+                                    font-size: 14px;
+                                    color: $gray-darker;
+                                    font-weight: 600;
+                                    line-height: 24px;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                }
+
+                                .attributes {
+                                    font-size: 12px;
+                                    line-height: 18px;
+                                }
+                            }
+
+                            .product-unit-price {
+                                @include centered;
+                                width: 20%;
+                                font-size: 13px;
+                                color: $gray-darker;
+                                font-weight: bold;
+                                white-space: nowrap;
+                            }
+                        }
+
+                        &:not(:last-child) {
+                            border-bottom: 1px solid $color-border;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

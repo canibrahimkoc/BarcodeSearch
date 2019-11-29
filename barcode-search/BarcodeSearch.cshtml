@@ -1,0 +1,85 @@
+﻿@model TopicModel
+@using Faprika.Core.Domain.Seo
+@inject SeoSettings seoSettings
+@{
+    Layout = "_Root";
+
+    //title
+    Html.AddTitleParts(!string.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title);
+    //meta
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+
+    if (seoSettings.CanonicalUrlsEnabled)
+    {
+        var topicUrl = Url.RouteUrl("Topic", new { SeName = Model.SeName }, this.Url.ActionContext.HttpContext.Request.Scheme);
+        Html.AddCanonicalUrlParts(topicUrl);
+    }
+    Html.AddCssFileParts(ResourceLocation.Head, "~/Themes/Default/Content/css/pages/topic.min.css", "~/Themes/Default/Content/css/pages/topic.css");
+}
+<section class="barcode-page">
+    <div class="page-container">
+        <div class="topic-body">
+            <h1 class="topic-title" id="ph-title">Stok Sorgulama</h1>
+            <div class="topic-content">
+                <input type="text" name="search" id="search" placeholder="Ürün Arama.." class="form-control input" />
+            </div>
+        </div>
+        <div class="cart-area">
+            <div class="page-body">
+                <div class="cart-wrap">
+                    <div class="cart-item-header">
+                        <div class="product-details">
+                            <div class="product-info">
+                                <span>Ürün</span>
+                            </div>
+                            <div class="product-unit-price">
+                                <span>Beden</span>
+                            </div>
+                            <div class="product-unit-price">
+                                <span>Renk</span>
+                            </div>
+                            <div class="product-unit-price">
+                                <span>Stok</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="result"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script asp-location="Footer">
+    $(document).ready(function () {
+        $.ajaxSetup({ cache: false });
+        $('#search').keyup(function () {
+            $('#result').html('');
+            $('#state').val('');
+            var searchField = $('#search').val();
+            var link = '/ajax-arama/?term=' + searchField;
+            $.getJSON(link, null, function (data) {
+                $.each(data.Products, function (key, value) {
+                    $('#result').append('<style>.cart-area {display:block !important;}</style><div class="cart-item"><div class="product-details"><div class="product-info"><a href="#" class="product-name">' + value.Name + '</a><div class="attributes">Stok Kodu: ' + value.Sku + '</div></div><div class="product-unit-price"><span id="stockSize_' + value.Sku +'">test</span></div><div class="product-unit-price"><span id="stockColor_' + value.Sku +'">test</span></div><div class="product-unit-price"><span>' + value.StockQuantity + '</span></div></div></div>');
+                    var StockSize = '#stockSize_' + value.Sku;
+                    var StockColor = '#stockColor_' + value.Sku;
+                    $.each(value.Combinations, function (key, value) {
+                        $.each(value.Attributes, function (key, value) {
+                            if (key == 0) {
+                                $(StockSize).text(value.Value);
+                            }
+                            if (key == 1) {
+                                $(StockColor).text(value.Value);
+                            }
+                        })
+                    });
+                });
+            })
+        });
+        $('#result').on('click', 'li', function () {
+            var click_text = $(this).text().split('|');
+            $('#search').val($.trim(click_text[0]));
+            $("#result").html('');
+        });
+    });
+</script>
