@@ -1,20 +1,5 @@
-﻿@model TopicModel
-@using Faprika.Core.Domain.Seo
-@inject SeoSettings seoSettings
 @{
     Layout = "_Root";
-
-    //title
-    Html.AddTitleParts(!string.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title);
-    //meta
-    Html.AddMetaDescriptionParts(Model.MetaDescription);
-    Html.AddMetaKeywordParts(Model.MetaKeywords);
-
-    if (seoSettings.CanonicalUrlsEnabled)
-    {
-        var topicUrl = Url.RouteUrl("Topic", new { SeName = Model.SeName }, this.Url.ActionContext.HttpContext.Request.Scheme);
-        Html.AddCanonicalUrlParts(topicUrl);
-    }
     Html.AddCssFileParts(ResourceLocation.Head, "~/Themes/Default/Content/css/pages/topic.min.css", "~/Themes/Default/Content/css/pages/topic.css");
 }
 <section class="barcode-page">
